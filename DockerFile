@@ -1,0 +1,30 @@
+# Use an official Python runtime as a parent image
+FROM python:3.8-slim-buster
+
+# Set the working directory to /app
+WORKDIR /app
+
+# Install necessary packages
+RUN apt-get update && \
+    apt-get install -y \
+        curl \
+        gcc \
+        git \
+        jq \
+        less \
+        make \
+        unzip \
+        && \
+    rm -rf /var/lib/apt/lists/*
+
+# Install localstack
+RUN pip install localstack
+
+# Set the environment variable for LocalStack
+ENV SERVICES=s3,dynamodb,lambda
+
+# Expose the ports used by LocalStack
+EXPOSE 4566-4599
+
+# Start LocalStack
+CMD ["localstack", "start"]
