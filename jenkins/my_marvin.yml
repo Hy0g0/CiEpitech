@@ -1,0 +1,49 @@
+security:
+  globalJobDslSecurityConfiguration:
+    useScriptSecurity: false
+
+jenkins:
+  systemMessage: "Welcome to Epitech Infra Ci that help you build your project."
+  securityRealm:
+    local:
+      allowsSignup: false
+      users:
+        - id: "hugo"
+          name: "Hugo"
+          password: ${USER_ADMIN_PASSWORD}
+        - id: "alain"
+          name: "Alain"
+          password: ${USER_ADMIN_PASSWORD}
+        - id: "guest"
+          name: "Guest"
+          password: ${USER_GUEST_PASSWORD}
+  authorizationStrategy:
+    roleBased:
+      roles:
+        global:
+          - name: "admin"
+            description: "Jenkins master"
+            permissions:
+              - "Overall/Administer"
+              - "Overall/Read"
+            assignments:
+              - "hugo"
+              - "alain"
+          - name: "guest"
+            description: "Developers"
+            permissions:
+              - "Job/Build"
+              - "Job/Read"
+              - "Job/Create"
+              - "Job/Configure"
+              - "Job/Delete"
+              - "Job/Move"
+              - "Build/Cancel"
+            assignments:
+              - "guest"
+jobs:
+  - script: >
+      folder('Tools') {
+        displayName('Tools')
+        description('Folder for miscellaneous tools.')
+      }
