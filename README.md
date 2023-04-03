@@ -28,6 +28,8 @@ Ce projet sera repartie en 4 grandes etapes :
 
 ## Langage utilise
 **GO**
+**Terraform**
+
 ## Requirements
 
 You'll need to install **docker** before getting started
