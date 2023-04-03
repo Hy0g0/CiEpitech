@@ -20,15 +20,16 @@ Ce projet sera repartie en 4 grandes etapes :
 
 ## Tech Stack
 
-**Docker**
-**Terraform**
-**Jenkins**
-**AWS**
-**Local Stack**
+- **Docker**
+- **Terraform**
+- **Jenkins**
+- **AWS**
+- **Local Stack**
 
 ## Langage utilise
-**GO**
-**Terraform**
+
+- **GO**
+- **Terraform**
 
 ## Requirements
 
