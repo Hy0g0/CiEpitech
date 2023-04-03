@@ -353,3 +353,7 @@ MigrationBackup/
 localstack/*
 
 *.env
+
+#terraform 
+.terraform.lock.hcl
+.terraform
