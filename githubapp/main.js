@@ -45,6 +45,7 @@ async function checkForPushEvent() {
   const pushEvent = data.filter(event => event.type === "PushEvent").shift();
   if (pushEvent.id !== lastPush.id) {
     console.log("New push detected: %s", pushEvent);
+    lastPush = pushEvent
   } else {
     console.log("No new push was detected");
   }
