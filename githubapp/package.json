@@ -11,6 +11,7 @@
     "@octokit/webhooks": "latest",
     "eventsource": "^2.0.2",
     "jenkins": "^0.28.0",
+    "nodemon": "^2.0.22",
     "octokit": "^2.0.14"
   },
   "devDependencies": {
