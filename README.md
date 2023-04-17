@@ -25,6 +25,7 @@ Ce projet sera repartie en 4 grandes etapes :
 - **Jenkins**
 - **AWS**
 - **Local Stack**
+- **Node**
 
 ## Langage utilise
 
