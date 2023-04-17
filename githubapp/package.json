@@ -4,15 +4,14 @@
   "description": "My Node.js application",
   "main": "main.js",
   "scripts": {
-    "start": "node main.js"
+    "start": "node serv.js"
   },
   "dependencies": {
-    "@octokit/app": "^13.1.2",
     "@octokit/auth-app": "^4.0.9",
-    "@octokit/rest": "^19.0.7",
+    "@octokit/webhooks": "latest",
+    "eventsource": "^2.0.2",
     "jenkins": "^0.28.0",
-    "octokit": "^2.0.14",
-    "prompt-sync": "^4.2.0"
+    "octokit": "^2.0.14"
   },
   "devDependencies": {
     "@types/jenkins": "^0.23.3"
