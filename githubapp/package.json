@@ -4,17 +4,17 @@
   "description": "My Node.js application",
   "main": "main.js",
   "scripts": {
-    "start": "node serv.js"
+    "start": "nodemon serv.js"
   },
   "dependencies": {
     "@octokit/auth-app": "^4.0.9",
     "@octokit/webhooks": "latest",
     "eventsource": "^2.0.2",
-    "jenkins": "^0.28.0",
-    "nodemon": "^2.0.22",
+    "jenkins": "^1.0.1",
     "octokit": "^2.0.14"
   },
   "devDependencies": {
+    "nodemon": "^2.0.22",
     "@types/jenkins": "^0.23.3"
   }
 }
