@@ -3,7 +3,7 @@
         description('Folder for miscellaneous tools.')
       }
 
-      freeStyleJob('/Tools/Tools/plan') {
+      freeStyleJob('/Tools/plan') {
           parameters {
             stringParam("GIT_BRANCH_NAME", "", "Github branch repository name")
           }
