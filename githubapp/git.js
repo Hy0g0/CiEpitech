@@ -18,6 +18,7 @@ exports.Authentification = async function Authentification(){
 const {
   data: { slug },
 } = await octokit.rest.apps.getAuthenticated();
+
 console.log("Hello, %s", slug);
 return octokit
 }

@@ -24,7 +24,11 @@ services:
       - ./jenkins/my_marvin.yml:/var/jenkins_home/casc.yml
     ports:
       - "8080:8080"
+    networks:
+      - my_network
   githubapp:
+    depends_on:
+      - jenkins
     build: ./githubapp
     ports:
       - "3000:3000"
@@ -34,3 +38,14 @@ services:
       NODE_ENV: production
     env_file:
       - githubapp/.env
+    networks:
+      - my_network
+    command: 
+      bash -c "
+      sleep 10 &&
+      npm start"
+      
+
+networks:
+  my_network:
+    driver: bridge
