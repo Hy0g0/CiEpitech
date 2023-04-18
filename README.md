@@ -6,7 +6,7 @@ Le projet consiste en la mise en place d'une infrastructure cloud aliant les tec
 
 ## Project Workflow
 
-![Project workflow](.github/diagram.png)
+![Project workflow](.github/diagramV2.png)
 
 Ce projet sera repartie en 4 grandes etapes :
 
