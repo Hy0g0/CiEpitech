@@ -358,3 +358,5 @@ localstack/*
 .terraform.lock.hcl
 .terraform
 *.tfstate
+
+.idea/
