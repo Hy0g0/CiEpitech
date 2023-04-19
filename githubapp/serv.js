@@ -110,13 +110,20 @@ const webhookProxyUrl = webhook; //
 const source = new EventSource(webhookProxyUrl);
 source.onmessage = async (event) => {
   const webhookEvent = JSON.parse(event.data);
-  if (webhookEvent.body.ref === "refs/heads/master") {
-    console.log("push on master")
-    await pushOnMain(webhookEvent)
-  } else {
-    console.log("push on a branch")
-    await pushOnBranch(webhookEvent)
+  let commitarr = webhookEvent.body.commits[0].modified
+  let terraform = await commitarr.forEach(function (commit) {
+    arr = commit.split('/')
+    console.log(arr[0])
+    if (arr[0] === "AWS") return true
+  });
+  if (terraform) {
+    if (webhookEvent.body.ref === "refs/heads/master") {
+      console.log("push on master")
+      await pushOnMain(webhookEvent)
+    } else {
+      console.log("push on a branch")
+      //await pushOnBranch(webhookEvent)
+    }
   }
-
 }
 
