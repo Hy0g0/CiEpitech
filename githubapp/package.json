@@ -10,7 +10,7 @@
     "@octokit/auth-app": "^4.0.9",
     "@octokit/webhooks": "latest",
     "eventsource": "^2.0.2",
-    "jenkins": "^1.0.1",
+    "jenkins": "latest",
     "octokit": "^2.0.14"
   },
   "devDependencies": {

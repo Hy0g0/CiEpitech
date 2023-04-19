@@ -11,8 +11,8 @@ var gitApp;
 var jenkins;
 
 async function Authentification() {
-gitApp = await App.Authentification();
-jenkins = await Jenkins.Authentification()
+  gitApp = await App.Authentification();
+  jenkins = await Jenkins.Authentification()
 }
 
 Authentification();
@@ -27,7 +27,7 @@ const webhooks = new Webhooks({
 require("http").createServer(createNodeMiddleware(webhooks)).listen(3000);
 // can now receive webhook events at /api/github/webhooks
 
-async function getPRnumber(branchName){
+async function getPRnumber(branchName) {
   return gitApp.rest.pulls.list({
     owner,
     repo,
@@ -47,67 +47,76 @@ async function getPRnumber(branchName){
   });
 }
 
-async function getBranchFromCommit(commitId){
+async function getBranchFromCommit(commitId) {
+  console.log(commitId)
   const commit = await gitApp.rest.git.getCommit({
     owner: owner,
     repo: repo,
     commit_sha: commitId,
   });
-
+  console.log(commit);
   // Get the branch that the commit is associated with
   const branch = await gitApp.rest.repos.getBranch({
     owner: owner,
     repo: repo,
     branch: commit.data.parents[0].url.split("/").pop(),
   });
+  console.log(branch)
+  return branch
 }
 
-async function pushOnBranch(webhookEvent){
+function postComment(PR, job) {
+  setTimeout(async () => {
+    var buildL = await jenkins.job.get('Tools/' + job)
+    buildL = buildL.lastBuild.url
+    let num = buildL.split('/' + job + '/')
+    const { data } = await gitApp.rest.issues.createComment({
+      owner: owner,
+      repo: repo,
+      issue_number: PR,
+      body: "plan: http://localhost:8080/job/Tools/job/" + job + "/" + num[1],
+    })
+    console.log("ended well!")
+  }, 10000);
+}
+
+async function pushOnBranch(webhookEvent) {
+  try {
     branch = webhookEvent.body.ref
     branch = branch.split('/')
     const number = await getPRnumber(branch[2])
-    const plan = await jenkins.job.build({
-        name: "Tools/plan",
-        parameters: { GIT_BRANCH_NAME: branch[2] },
-      });
-    console.log(branch[2])
-   
-   console.log(number)
-      // Example: post a comment on a pull request
-      setTimeout(async ()=>{
-        const { data } = await gitApp.rest.issues.createComment({
-        owner: owner,
-        repo: repo,
-        issue_number: number,
-        body: "plan: http://localhost:8080/job/Tools/job/plan/"+ plan+"/",
-      })},5000);
+    await jenkins.job.build({
+      name: "Tools/plan",
+      parameters: { GIT_BRANCH_NAME: branch[2] },
+    });
+    // Example: post a comment on a pull request
+    postComment(number, "plan")
+
+  } catch (error) {
+    console.error(error);
+  }
 }
 
-async function pushOnMain(webhookEvent){
+async function pushOnMain(webhookEvent) {
   const commitId = webhookEvent.body.commits[0].id
   number = await getBranchFromCommit(commitId)
-  idJob = await jenkins.job.build("Tools/apply");
-  setTimeout(async ()=>{
-    const { data } = await gitApp.rest.issues.createComment({
-    owner: owner,
-    repo: repo,
-    issue_number: number,
-    body: "plan: http://localhost:8080/job/Tools/job/plan/"+ idJob+"/",
-  })},5000);
+  jenkins.job.build('Tools/apply');
+  await jenkins.job.build("Tools/apply");
+  postComment(number, "apply")
 }
 
 
 const webhookProxyUrl = webhook; // 
-const source =  new EventSource(webhookProxyUrl);
+const source = new EventSource(webhookProxyUrl);
 source.onmessage = async (event) => {
   const webhookEvent = JSON.parse(event.data);
-  if(webhookEvent.body.ref === "refs/heads/master"){
+  if (webhookEvent.body.ref === "refs/heads/master") {
     console.log("push on master")
-   await  pushOnMain(webhookEvent)
-  }else{
+    await pushOnMain(webhookEvent)
+  } else {
     console.log("push on a branch")
     await pushOnBranch(webhookEvent)
   }
-  
+
 }
 
