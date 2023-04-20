@@ -54,14 +54,12 @@ async function getBranchFromCommit(commitId) {
     repo: repo,
     commit_sha: commitId,
   });
-  console.log(commit);
   // Get the branch that the commit is associated with
   const branch = await gitApp.rest.repos.getBranch({
     owner: owner,
     repo: repo,
     branch: commit.data.parents[0].url.split("/").pop(),
   });
-  console.log(branch)
   return branch
 }
 
@@ -111,18 +109,22 @@ const source = new EventSource(webhookProxyUrl);
 source.onmessage = async (event) => {
   const webhookEvent = JSON.parse(event.data);
   let commitarr = webhookEvent.body.commits[0].modified
-  let terraform = await commitarr.forEach(function (commit) {
+  commitarr = commitarr.concat(webhookEvent.body.commits[0].added)
+  commitarr = commitarr.concat(webhookEvent.body.commits[0].removed)
+  let terraform = false
+  await commitarr.forEach(function (commit) {
     arr = commit.split('/')
-    console.log(arr[0])
-    if (arr[0] === "AWS") return true
+    console.log(arr[0] === "AWS")
+    if (arr[0] === "AWS") terraform = true
   });
+  console.log(terraform)
   if (terraform) {
     if (webhookEvent.body.ref === "refs/heads/master") {
       console.log("push on master")
       await pushOnMain(webhookEvent)
     } else {
       console.log("push on a branch")
-      //await pushOnBranch(webhookEvent)
+      await pushOnBranch(webhookEvent)
     }
   }
 }
