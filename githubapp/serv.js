@@ -104,7 +104,7 @@ async function pushOnMain(webhookEvent) {
 }
 
 
-const webhookProxyUrl = webhook; // 
+const webhookProxyUrl = webhook;
 const source = new EventSource(webhookProxyUrl);
 source.onmessage = async (event) => {
   const webhookEvent = JSON.parse(event.data);
