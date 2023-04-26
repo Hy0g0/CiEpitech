@@ -3,23 +3,55 @@
         description('Folder for miscellaneous tools.')
       }
 
-      freeStyleJob('/Tools/plan') {
-          parameters {
-            stringParam("GIT_BRANCH_NAME", "", "Github branch repository name")
-          }
-          steps {
-            shell("git clone https://github.com/Hy0g0/CiEpitech.git")
-            shell("cd CiEpitech && git checkout \$GIT_BRANCH_NAME")
-            shell("echo 'Done!'")
-            //TODO: Add localstack plan command
-          }
-      }
+        job('/Tools/authentication'){
+            scm {
+                git{
+                    remote {
+                        url('https://github.com/Hy0g0/CiEpitech.git')
+                        credentials('Jenkins_Agent')
+                    }
+                }
+            }
+        }
 
-      freeStyleJob('/Tools/apply') {
-          steps {
-            shell("git clone https://github.com/Hy0g0/CiEpitech.git /repo")
-            shell("cd /repo/CiEpitech")
+       freeStyleJob('/Tools/plan') {
+           parameters {
+                stringParam("GIT_BRANCH_NAME", "", "Github branch repository name")
+           }
+           steps {
+                scm {
+                    git{
+                        remote {
+                            url('https://github.com/Hy0g0/CiEpitech.git')
+                            credentials('Jenkins_Agent')
+                        }
+                        branch('\$GIT_BRANCH_NAME')
+                    }
+                }
+           }
+           steps {
+            shell("git checkout \$GIT_BRANCH_NAME")
             shell("echo 'Done!'")
-            //TODO: Add localstack apply command and more
-          }
-      }
+            //TODO: Launch tflocal Plan in Docker container
+           }
+       }
+
+       freeStyleJob('/Tools/apply') {
+           parameters {
+                stringParam("GIT_BRANCH_NAME", "", "Github branch repository name")
+           }
+            scm {
+                steps {
+                     git {
+                         remote {
+                             url('https://github.com/Hy0g0/CiEpitech.git')
+                             credentials('Jenkins_Agent')
+                         }
+                         branch('\$GIT_BRANCH_NAME')
+                     }
+//                       shell("git checkout \$GIT_BRANCH_NAME")
+                      shell("echo 'Done!'")
+                }
+            }
+            //TODO: Launch tflocal Apply in Docker container
+       }

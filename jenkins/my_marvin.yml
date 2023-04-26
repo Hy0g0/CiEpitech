@@ -1,3 +1,13 @@
+credentials:
+  system:
+    domainCredentials:
+      - credentials:
+          - usernamePassword:
+              id: "Jenkins_Agent"
+              password: ${GITHUB_PTA}
+              scope: GLOBAL
+              username: ${JENKINS_AGENT_USERNAME}
+
 security:
   globalJobDslSecurityConfiguration:
     useScriptSecurity: false
