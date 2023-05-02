@@ -8,6 +8,16 @@ credentials:
               scope: GLOBAL
               username: ${JENKINS_AGENT_USERNAME}
 
+tool:
+  terraform:
+    installations:
+      - name: "Terraform"
+        properties:
+          - installSource:
+              installers:
+                - terraformInstaller:
+                    id: "30405-darwin-amd64"
+
 security:
   globalJobDslSecurityConfiguration:
     useScriptSecurity: false
