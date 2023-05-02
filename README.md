@@ -1,5 +1,5 @@
 
-# CiEpitech 
+# CiEpitech
 
 Le projet consiste en la mise en place d'une infrastructure cloud aliant les technos Terraform (Pour concevoir l'infra), Local Stack (En Provider) et entierrement gere par une instance Jenkins. Avec comme but de tester l'integration continue.
 
