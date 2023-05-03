@@ -2,7 +2,7 @@ var jenkins = require("jenkins")
 
 const jenurl = process.env.JENKINS_URL
 
-
+console.log(jenurl)
 const instance =  new jenkins({
   baseUrl: jenurl
 });
