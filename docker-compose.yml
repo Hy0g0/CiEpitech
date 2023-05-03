@@ -1,8 +1,9 @@
 version: "3.8"
 
 services:
+
   localstack:
-    image: localstack/localstack-pro
+    build: ./localstack/
     ports:
       - "127.0.0.1:4566:4566"            # LocalStack Gateway
       - "127.0.0.1:4510-4559:4510-4559"  # external services port range
@@ -12,8 +13,9 @@ services:
     env_file:
       - ./.env
     volumes:
-      - "./localstack:/var/lib/localstack"
+      - "./localstack/data:/var/lib/localstack"
       - "/var/run/docker.sock:/var/run/docker.sock"
+
   jenkins:
     privileged: true
     build: ./jenkins/
@@ -22,8 +24,10 @@ services:
       - jenkins/jenkins.env
     volumes:
       - ./jenkins/my_marvin.yml:/var/jenkins_home/casc.yml
+      - /var/run/docker.sock:/var/run/docker.sock
     ports:
       - "8080:8080"
+
   githubapp:
     build: ./githubapp
     ports:

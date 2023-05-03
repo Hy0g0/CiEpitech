@@ -350,7 +350,7 @@ MigrationBackup/
 .ionide/
 
 # localstack
-localstack/*
+localstack/data/
 
 *.env
 
@@ -358,3 +358,6 @@ localstack/*
 .terraform.lock.hcl
 .terraform
 *.tfstate
+
+.idea/
+**/*.env
