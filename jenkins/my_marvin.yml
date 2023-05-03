@@ -8,16 +8,6 @@ credentials:
               scope: GLOBAL
               username: ${JENKINS_AGENT_USERNAME}
 
-tool:
-  terraform:
-    installations:
-      - name: "Terraform"
-        properties:
-          - installSource:
-              installers:
-                - terraformInstaller:
-                    id: "30405-darwin-amd64"
-
 security:
   globalJobDslSecurityConfiguration:
     useScriptSecurity: false
@@ -31,12 +21,15 @@ jenkins:
         - id: "hugo"
           name: "Hugo"
           password: ${USER_ADMIN_PASSWORD}
+
         - id: "alain"
           name: "Alain"
           password: ${USER_ADMIN_PASSWORD}
+
         - id: "guest"
           name: "Guest"
           password: ${USER_GUEST_PASSWORD}
+
   authorizationStrategy:
     roleBased:
       roles:
@@ -49,6 +42,7 @@ jenkins:
             assignments:
               - "hugo"
               - "alain"
+
           - name: "guest"
             description: "Developers"
             permissions:
@@ -61,5 +55,6 @@ jenkins:
               - "Build/Cancel"
             assignments:
               - "guest"
+
 jobs:
   - file: ./job_dsl.groovy

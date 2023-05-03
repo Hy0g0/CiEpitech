@@ -350,7 +350,7 @@ MigrationBackup/
 .ionide/
 
 # localstack
-localstack/*
+localstack/data/
 
 *.env
 
